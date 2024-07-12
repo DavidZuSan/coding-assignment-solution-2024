@@ -3,6 +3,12 @@ import { Routes, Route, createSearchParams, useSearchParams, useNavigate } from 
 import { useDispatch, useSelector } from 'react-redux'
 import 'reactjs-popup/dist/index.css'
 import { fetchMovies } from './data/moviesSlice'
+
+/* 
+Storing the API key directly in the code is a security risk!
+Anyone with access to this code will also have access to your API key. 
+Consider using a more secure method like environment variables or a secrets management service to store your API key. 
+*/
 import { ENDPOINT_SEARCH, ENDPOINT_DISCOVER, ENDPOINT, API_KEY } from './constants'
 import Header from './components/Header'
 import Movies from './components/Movies'
@@ -19,15 +25,19 @@ const App = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const searchQuery = searchParams.get('search')
   const [videoKey, setVideoKey] = useState()
-  const [isOpen, setOpen] = useState(false)
+  const [isOpen, setOpen] = useState(false) // isOpen is currently unused but might be used in the future for UI visibility control.
   const navigate = useNavigate()
   
   const closeModal = () => setOpen(false)
   
   const closeCard = () => {
-
+    // Implement card closing logic here
   }
 
+  /*
+  It is recommended to use a template literal or string interpolation technique to dynamically build URLs.
+  This approach improves readability and reduces the risk of errors from manual string concatenation.
+  */
   const getSearchResults = (query) => {
     if (query !== '') {
       dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+query))
@@ -53,6 +63,10 @@ const App = () => {
 
   const viewTrailer = (movie) => {
     getMovie(movie.id)
+    /*
+    The second call to setOpen(true) seems unnecessary.
+    Consider removing it as it will open the modal regardless of whether a trailer is available.
+    */
     if (!videoKey) setOpen(true)
     setOpen(true)
   }

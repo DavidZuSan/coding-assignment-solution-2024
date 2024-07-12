@@ -1,9 +1,10 @@
 .container {
+    // Padding consistency: Consider using a single padding value for all devices.
     padding-top: 100px;
     color: #fff;
 
     @media (max-width: 720px) {
-        padding-top: 70px;        
+        padding-top: 70px; // Adjust padding for smaller screens        
     }
 
     a {
@@ -19,6 +20,7 @@
     .card, 
     .card *,
     .card + * {
+        // Disable transitions on small screens for performance optimization:
         -webkit-transition: all .2s ease-in-out;
         -moz-transition: all .2s ease-in-out;
         -ms-transition: all .2s ease-in-out;
@@ -30,6 +32,7 @@
         }
     }
 
+    // Centralize padding styles for `.info_panel` in media queries
     .info_panel {
         padding: 20% 5% 0;
         color: #fff;
@@ -112,7 +115,9 @@
     .year {
         padding: 0.2rem 0 0.4rem;
         font-size: 0.7rem;
+
         @media (max-width: 480px) {
+            // Consider using flexbox or grid for better layout on mobile:
             position: absolute;
             right: 0;            
             bottom: 67%;
@@ -131,8 +136,9 @@
         margin: 0 5px;
         color: #e50914;
         cursor: pointer;
+        
         @media (max-width: 520px) {
-            font-size: 25px;
+            font-size: 25px; // Adjust font size for smaller screens
         }        
     }
     button {
