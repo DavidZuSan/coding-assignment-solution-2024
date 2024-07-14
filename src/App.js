@@ -1,92 +1,77 @@
-import { useEffect, useState } from 'react'
-import { Routes, Route, createSearchParams, useSearchParams, useNavigate } from "react-router-dom"
-import { useDispatch, useSelector } from 'react-redux'
-import 'reactjs-popup/dist/index.css'
-import { fetchMovies } from './data/moviesSlice'
-
-/* 
-Storing the API key directly in the code is a security risk!
-Anyone with access to this code will also have access to your API key. 
-Consider using a more secure method like environment variables or a secrets management service to store your API key. 
-*/
-import { ENDPOINT_SEARCH, ENDPOINT_DISCOVER, ENDPOINT, API_KEY } from './constants'
-import Header from './components/Header'
-import Movies from './components/Movies'
-import Starred from './components/Starred'
-import WatchLater from './components/WatchLater'
-import YouTubePlayer from './components/YoutubePlayer'
-import './app.scss'
+import { useEffect, useState } from 'react';
+import { Routes, Route, createSearchParams, useSearchParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import 'reactjs-popup/dist/index.css';
+import { fetchMovies } from './data/moviesSlice';
+import { ENDPOINT_SEARCH, ENDPOINT_DISCOVER, ENDPOINT, API_KEY } from './constants';
+import Header from './components/Header';
+import Movies from './components/Movies';
+import Starred from './components/Starred';
+import WatchLater from './components/WatchLater';
+import YouTubePlayer from './components/YoutubePlayer';
+import './app.scss';
 
 const App = () => {
+  const state = useSelector((state) => state);
+  const { movies } = state;
+  const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search');
+  const [videoKey, setVideoKey] = useState(null);
+  const [isOpen, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const state = useSelector((state) => state)
-  const { movies } = state  
-  const dispatch = useDispatch()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const searchQuery = searchParams.get('search')
-  const [videoKey, setVideoKey] = useState()
-  const [isOpen, setOpen] = useState(false) // isOpen is currently unused but might be used in the future for UI visibility control.
-  const navigate = useNavigate()
-  
-  const closeModal = () => setOpen(false)
-  
-  const closeCard = () => {
-    // Implement card closing logic here
-  }
+  // Close the modal
+  const closeModal = () => setOpen(false);
 
-  /*
-  It is recommended to use a template literal or string interpolation technique to dynamically build URLs.
-  This approach improves readability and reduces the risk of errors from manual string concatenation.
-  */
+  // Fetch movies based on the search query or default discover endpoint
   const getSearchResults = (query) => {
     if (query !== '') {
-      dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+query))
-      setSearchParams(createSearchParams({ search: query }))
+      dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=${query}`));
+      setSearchParams(createSearchParams({ search: query }));
     } else {
-      dispatch(fetchMovies(ENDPOINT_DISCOVER))
-      setSearchParams()
+      dispatch(fetchMovies(ENDPOINT_DISCOVER));
+      setSearchParams();
     }
-  }
+  };
 
+  // Search for movies and navigate to the home page
   const searchMovies = (query) => {
-    navigate('/')
-    getSearchResults(query)
-  }
+    navigate('/');
+    getSearchResults(query);
+  };
 
+  // Fetch movies when the component mounts or when searchQuery changes
   const getMovies = () => {
     if (searchQuery) {
-        dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+searchQuery))
+      dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=${searchQuery}`));
     } else {
-        dispatch(fetchMovies(ENDPOINT_DISCOVER))
+      dispatch(fetchMovies(ENDPOINT_DISCOVER));
     }
-  }
+  };
 
+  // Fetch and display the trailer for a selected movie
   const viewTrailer = (movie) => {
-    getMovie(movie.id)
-    /*
-    The second call to setOpen(true) seems unnecessary.
-    Consider removing it as it will open the modal regardless of whether a trailer is available.
-    */
-    if (!videoKey) setOpen(true)
-    setOpen(true)
-  }
+    getMovie(movie.id);
+    setOpen(true);
+  };
 
+  // Fetch movie details and set the video key for the trailer
   const getMovie = async (id) => {
-    const URL = `${ENDPOINT}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`
+    const URL = `${ENDPOINT}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`;
 
-    setVideoKey(null)
-    const videoData = await fetch(URL)
-      .then((response) => response.json())
+    setVideoKey(null);
+    const videoData = await fetch(URL).then((response) => response.json());
 
     if (videoData.videos && videoData.videos.results.length) {
-      const trailer = videoData.videos.results.find(vid => vid.type === 'Trailer')
-      setVideoKey(trailer ? trailer.key : videoData.videos.results[0].key)
+      const trailer = videoData.videos.results.find((vid) => vid.type === 'Trailer');
+      setVideoKey(trailer ? trailer.key : videoData.videos.results[0].key);
     }
-  }
+  };
 
   useEffect(() => {
-    getMovies()
-  }, [])
+    getMovies();
+  }, []);
 
   return (
     <div className="App">
@@ -94,22 +79,22 @@ const App = () => {
 
       <div className="container">
         {videoKey ? (
-          <YouTubePlayer
-            videoKey={videoKey}
-          />
+          <YouTubePlayer videoKey={videoKey} />
         ) : (
-          <div style={{padding: "30px"}}><h6>no trailer available. Try another movie</h6></div>
+          <div style={{ padding: "30px" }}>
+            <h6>No trailer available. Try another movie.</h6>
+          </div>
         )}
 
         <Routes>
-          <Route path="/" element={<Movies movies={movies} viewTrailer={viewTrailer} closeCard={closeCard} />} />
+          <Route path="/" element={<Movies movies={movies} viewTrailer={viewTrailer} />} />
           <Route path="/starred" element={<Starred viewTrailer={viewTrailer} />} />
           <Route path="/watch-later" element={<WatchLater viewTrailer={viewTrailer} />} />
           <Route path="*" element={<h1 className="not-found">Page Not Found</h1>} />
         </Routes>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

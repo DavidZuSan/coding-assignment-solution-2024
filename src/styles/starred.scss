@@ -1,28 +1,27 @@
 .starred {
-  
+
     footer {
-        margin-top: 50px;
+        margin-top: 50px; /* Adds top margin to the footer */
 
         .total-price {
-            font-size: 1.8rem;
+            font-size: 1.8rem; /* Sets font size for total price */
         }
 
         .btn {
             width: auto;
-            padding: 0 20px;                   
-            font-size: 0.8rem;
-            background: red;
-            border: none;
+            padding: 0 20px; /* Adds horizontal padding to buttons */
+            font-size: 0.8rem; /* Sets font size for buttons */
+            background: red; /* Sets background color to red */
+            border: none; /* Removes border */
         }
 
         .back-button {
-            color: #000;
-            background: #efefef;
+            color: #000; /* Sets text color to black */
+            background: #efefef; /* Sets background color to light grey */
         }
 
         .back-button:hover {
-            background: #dedede;
+            background: #dedede; /* Changes background color on hover */
         }
     }
 }
-  

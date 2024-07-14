@@ -1,17 +1,15 @@
-/* Storing the API key directly in the code is a security risk!
-Anyone with access to this code will also have access to your API key. 
-Consider using a more secure method like environment variables or a secrets management service to store your API key. 
-*/
+// API key retrieved from environment variables
+export const API_KEY = process.env.REACT_APP_API_KEY;
 
-export const API_KEY = '8cac6dec66e09ab439c081b251304443' // Placeholder value, remove before deployment
-export const ENDPOINT = 'https://api.themoviedb.org/3'
+// Base URL for the TMDB API
+export const ENDPOINT = 'https://api.themoviedb.org/3';
 
+// URL for discovering movies, sorted by vote count
+export const ENDPOINT_DISCOVER = `${ENDPOINT}/discover/movie?api_key=${API_KEY}&sort_by=vote_count.desc`;
 
-/*
-The API endpoints `ENDPOINT_DISCOVER` and `ENDPOINT_SEARCH` defined in lines 10 and 11 of `constants.js` appear to be incorrect. The trailing slash '/' in the URLs is causing issues with API requests.
+// URL for searching movies
+export const ENDPOINT_SEARCH = `${ENDPOINT}/search/movie?api_key=${API_KEY}`;
 
-Remove the trailing slash '/' from the URLs to ensure correct API requests. 
-*/ 
-export const ENDPOINT_DISCOVER = `${ENDPOINT}/discover/movie?api_key=${API_KEY}&sort_by=vote_count.desc`
-export const ENDPOINT_SEARCH = `${ENDPOINT}/search/movie?api_key=${API_KEY}`
-export const ENDPOINT_MOVIE = `${ENDPOINT}/movie/507086?api_key=${API_KEY}&append_to_response=videos`
+// URL for fetching detailed information about a specific movie, including its videos
+export const ENDPOINT_MOVIE = (movieId) => 
+  `${ENDPOINT}/movie/${movieId}?api_key=${API_KEY}&append_to_response=videos`;
