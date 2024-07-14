@@ -1,13 +1,30 @@
+/*
+  Styles for the root element of the application (#root)
+  **Accessibility issue:** The code does not use adequate contrasting colors to ensure accessibility for people with color blindness or low vision.
+  **Suggestion:** Implement an accessible color palette or use a contrast checker tool to ensure that the colors used have sufficient contrast.
+*/
+
 #root {
   height: 100%;
   min-height: 850px;  
   background: linear-gradient(0deg, #1CB5E0 20%, #050b45 100%) no-repeat;
 }
 
+/*
+  Styles applied to the entire application (root element and App class)
+  **Lack of comments:** The code lacks comments explaining its purpose and functionality, making it difficult to understand and maintain.
+  **Suggestion:** Add descriptive comments to explain the purpose of each selector and main style, especially for the 'anvil' animation and the '.popup-content' and '.video-player' selectors.
+*/
+
 :root, 
 .App {
   text-align: center;
 
+  /*
+  Styles applied to the entire application (root element and App class)
+  **Redundancy in 'anvil' animation definition:** The shadow, opacity, and transform values are repeated for the initial and intermediate states of the 'anvil' animation.
+  **Suggestion:** Optimize the animation definition by using shorthand values or variables to avoid redundancy.
+*/
   @keyframes anvil {
     0% {
       box-shadow: 0 0 0 rgba(241, 241, 241, 0);

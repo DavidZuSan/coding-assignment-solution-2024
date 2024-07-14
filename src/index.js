@@ -13,6 +13,21 @@ root.render(
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </Provider>      
+    </Provider>
   </React.StrictMode>
 )
+
+/* 
+Consider implementing a global Error Boundary component to catch and display unhandled errors gracefully.
+This would improve the user experience by preventing the application from crashing completely in case of unexpected errors.
+*/
+
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>
+);
