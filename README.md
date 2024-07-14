@@ -24,3 +24,11 @@ You may also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+## Environment Variables
+
+This project uses environment variables for configuration. Create a .env file in the root of your project with the following variables:
+
+REACT_APP_API_KEY=your_tmdb_api_key
+
+Replace your_tmdb_api_key with your actual API key obtained from TMDb. Make sure not to share your .env file or its contents publicly.
