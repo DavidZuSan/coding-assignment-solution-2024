@@ -12,6 +12,6 @@ The API endpoints `ENDPOINT_DISCOVER` and `ENDPOINT_SEARCH` defined in lines 10 
 
 Remove the trailing slash '/' from the URLs to ensure correct API requests. 
 */ 
-export const ENDPOINT_DISCOVER = ENDPOINT+'/discover/movie/?api_key='+API_KEY+'&sort_by=vote_count.desc'
-export const ENDPOINT_SEARCH = ENDPOINT+'/search/movie/?api_key='+API_KEY
-export const ENDPOINT_MOVIE = ENDPOINT+'/movie/507086?api_key='+API_KEY+'&append_to_response=videos'
+export const ENDPOINT_DISCOVER = `${ENDPOINT}/discover/movie?api_key=${API_KEY}&sort_by=vote_count.desc`
+export const ENDPOINT_SEARCH = `${ENDPOINT}/search/movie?api_key=${API_KEY}`
+export const ENDPOINT_MOVIE = `${ENDPOINT}/movie/507086?api_key=${API_KEY}&append_to_response=videos`
